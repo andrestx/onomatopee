@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Promenade Sonore</title>
+    <style>
+        /* Stiluri Minimaliste */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fdfdfd;
+            color: #333;
+            line-height: 1.8;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            text-align: justify;
+        }
+
+        /* Stilul butonului de sunet */
+        .sound-trigger {
+            background-color: #eef2f3;
+            padding: 2px 8px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            color: #2980b9;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid transparent;
+        }
+
+        .sound-trigger:hover {
+            background-color: #dfe6e9;
+            border-color: #b2bec3;
+            transform: translateY(-1px);
+        }
+
+        .sound-trigger:active {
+            transform: translateY(1px);
+        }
+
+        .icon {
+            font-size: 0.9em;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Une Petite Promenade</h1>
+        
+        <p>
+            Quand je me promène dans la rue, j'entends d'abord le bruit de mes chaussures sur le trottoir : 
+            <span class="sound-trigger" onclick="playSound('audio1')">Tap, tap 🔊</span>.
+        </p>
+        
+        <p>
+            Tout à coup, une voiture passe très vite à côté de moi : 
+            <span class="sound-trigger" onclick="playSound('audio2')">Vroum ! 🔊</span>. 
+            Le conducteur est pressé, il utilise son klaxon : 
+            <span class="sound-trigger" onclick="playSound('audio3')">Tut, tut 🔊</span>.
+        </p>
+
+        <p>
+            Je préfère aller vers le parc. Là-bas, c'est plus calme. Le vent souffle doucement dans les feuilles des arbres : 
+            <span class="sound-trigger" onclick="playSound('audio4')">Frou, frou 🔊</span>.
+        </p>
+
+        <p>
+            Un petit oiseau bleu chante sur une branche : 
+            <span class="sound-trigger" onclick="playSound('audio5')">Cui, cui 🔊</span>. 
+            Finalement, je m'assieds près de la rivière qui coule tranquillement : 
+            <span class="sound-trigger" onclick="playSound('audio6')">Glou, glou 🔊</span>.
+        </p>
+
+        <div class="footer">Cliquez sur les mots bleus pour écouter.</div>
+    </div>
+
+    <audio id="audio1" src="1sunet.mp3"></audio>
+    <audio id="audio2" src="2sunet.mp3"></audio>
+    <audio id="audio3" src="3sunet.mp3"></audio>
+    <audio id="audio4" src="4sunet.mp3"></audio>
+    <audio id="audio5" src="5sunet.mp3"></audio>
+    <audio id="audio6" src="6sunet.mp3"></audio>
+
+    <script>
+        function playSound(id) {
+            var sound = document.getElementById(id);
+            // Oprește sunetul dacă deja rulează și îl repornește de la început
+            sound.pause();
+            sound.currentTime = 0;
+            sound.play();
+        }
+    </script>
+
+</body>
+</html>
