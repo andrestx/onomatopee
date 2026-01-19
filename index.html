@@ -6,7 +6,6 @@
     <title>Ma Promenade Sonore</title>
     <link rel="icon" href="../logo.png" type="image/png">
     <style>
-        /* Stiluri Minimaliste */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #fdfdfd;
@@ -40,7 +39,6 @@
             text-align: justify;
         }
 
-        /* Stilul butonului de sunet */
         .sound-trigger {
             background-color: #eef2f3;
             padding: 2px 8px;
@@ -119,7 +117,6 @@
     <script>
         function playSound(id) {
             var sound = document.getElementById(id);
-            // Oprește sunetul dacă deja rulează și îl repornește de la început
             sound.pause();
             sound.currentTime = 0;
             sound.play();
