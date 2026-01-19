@@ -16,6 +16,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding-bottom: 80px; /* Spațiu pentru bara de jos */
         }
 
         .container {
@@ -56,15 +57,44 @@
         .sound-trigger:hover {
             background-color: #dfe6e9;
             border-color: #b2bec3;
-            transform: translateY(-1px);
         }
 
-        .sound-trigger:active {
-            transform: translateY(1px);
+        /* Notificarea Minimalistă (Player-ul de jos) */
+        #audio-status {
+            position: fixed;
+            bottom: -100px; /* Ascuns implicit */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 0.9rem;
         }
 
-        .icon {
-            font-size: 0.9em;
+        #audio-status.visible {
+            bottom: 30px;
+        }
+
+        .stop-btn {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .stop-btn:hover {
+            background: #c0392b;
         }
 
         .footer {
@@ -78,48 +108,76 @@
 <body>
 
     <div class="container">
-        <h1><b></b>Une Petite Promenade</b></h1>
+        <h1><b>Une Petite Promenade</b></h1>
         
         <p>
             Quand je me promène dans la rue, j'entends d'abord le bruit de mes chaussures sur le trottoir : 
-            <span class="sound-trigger" onclick="playSound('audio1')">Tap, tap 🔊</span>.
+            <span class="sound-trigger" onclick="playSound('audio1', 'Mes pas')">Tap, tap 🔊</span>.
         </p>
         
         <p>
             Tout à coup, une voiture passe très vite à côté de moi : 
-            <span class="sound-trigger" onclick="playSound('audio2')">Vroum ! 🔊</span>. 
+            <span class="sound-trigger" onclick="playSound('audio2', 'La voiture')">Vroum ! 🔊</span>. 
             Le conducteur est pressé, il utilise son klaxon : 
-            <span class="sound-trigger" onclick="playSound('audio3')">Tut, tut 🔊</span>.
+            <span class="sound-trigger" onclick="playSound('audio3', 'Le klaxon')">Tut, tut 🔊</span>.
         </p>
 
         <p>
             Je préfère aller vers le parc. Là-bas, c'est plus calme. Le vent souffle doucement dans les feuilles des arbres : 
-            <span class="sound-trigger" onclick="playSound('audio4')">Frou, frou 🔊</span>.
+            <span class="sound-trigger" onclick="playSound('audio4', 'Le vent')">Frou, frou 🔊</span>.
         </p>
 
         <p>
             Un petit oiseau bleu chante sur une branche : 
-            <span class="sound-trigger" onclick="playSound('audio5')">Cui, cui 🔊</span>. 
+            <span class="sound-trigger" onclick="playSound('audio5', 'L\'oiseau')">Cui, cui 🔊</span>. 
             Finalement, je m'assieds près de la rivière qui coule tranquillement : 
-            <span class="sound-trigger" onclick="playSound('audio6')">Glou, glou 🔊</span>.
+            <span class="sound-trigger" onclick="playSound('audio6', 'La rivière')">Glou, glou 🔊</span>.
         </p>
 
         <div class="footer">Cliquez sur les mots bleus pour écouter.</div>
     </div>
 
-    <audio id="audio1" src="1sunet.mp3"></audio>
-    <audio id="audio2" src="2sunet.mp3"></audio>
-    <audio id="audio3" src="3sunet.mp3"></audio>
-    <audio id="audio4" src="4sunet.mp3"></audio>
-    <audio id="audio5" src="5sunet.mp3"></audio>
-    <audio id="audio6" src="6sunet.mp3"></audio>
+    <div id="audio-status">
+        <span id="status-text">Son en cours...</span>
+        <button class="stop-btn" onclick="stopAll()">Arrêter ⏹</button>
+    </div>
+
+    <audio id="audio1" src="1sunet.mp3" onended="hideStatus()"></audio>
+    <audio id="audio2" src="2sunet.mp3" onended="hideStatus()"></audio>
+    <audio id="audio3" src="3sunet.mp3" onended="hideStatus()"></audio>
+    <audio id="audio4" src="4sunet.mp3" onended="hideStatus()"></audio>
+    <audio id="audio5" src="5sunet.mp3" onended="hideStatus()"></audio>
+    <audio id="audio6" src="6sunet.mp3" onended="hideStatus()"></audio>
 
     <script>
-        function playSound(id) {
-            var sound = document.getElementById(id);
-            sound.pause();
-            sound.currentTime = 0;
-            sound.play();
+        let currentAudio = null;
+
+        function playSound(id, name) {
+            // 1. Oprim orice sunet care rulează deja (prevenim suprapunerea)
+            stopAll();
+
+            // 2. Pornim noul sunet
+            currentAudio = document.getElementById(id);
+            currentAudio.currentTime = 0;
+            currentAudio.play();
+
+            // 3. Arătăm notificarea
+            const status = document.getElementById('audio-status');
+            document.getElementById('status-text').innerText = "Lecture : " + name;
+            status.classList.add('visible');
+        }
+
+        function stopAll() {
+            const allAudios = document.querySelectorAll('audio');
+            allAudios.forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+            hideStatus();
+        }
+
+        function hideStatus() {
+            document.getElementById('audio-status').classList.remove('visible');
         }
     </script>
 
